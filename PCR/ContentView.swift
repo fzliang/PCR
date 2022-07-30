@@ -92,19 +92,15 @@ struct ContentView: View {
     func onTap(days: Int) {
         if (days == 0) {
             clearNotify()
-            notify(days: 3, hour: 9, minute: 0)
             notify(days: 3, hour: 17, minute: 30)
         } else if (days == 1) {
             clearNotify()
-            notify(days: 2, hour: 9, minute: 0)
             notify(days: 2, hour: 17, minute: 30)
         } else if (days == 2) {
             clearNotify()
-            notify(days: 1,hour: 9, minute: 0)
             notify(days: 1,hour: 17, minute: 30)
         } else if (days == 3) {
             clearNotify()
-            notify(days: 0, hour: 9, minute:  0)
             notify(days: 0, hour: 17, minute: 30)
         }
     }
@@ -121,14 +117,17 @@ struct ContentView: View {
         
         let date = Calendar.current.dateComponents([.day, .month, .year, .hour, .minute], from: newDate!)
         
+        let identifier = "pcr \(hour) \(minute)"
+        
         let content = UNMutableNotificationContent()
         content.title = "做核酸了"
         content.body = "今天\(date.month!)月\(date.day!)日,该去做核酸了！！！"
-        content.sound = .default
+//        content.sound = .default
+        content.sound = UNNotificationSound(named: UNNotificationSoundName(rawValue: "happy.caf"));
         
         let trigger = UNCalendarNotificationTrigger(dateMatching: date, repeats: true)
-        
-        let identifier = "pcr \(hour) \(minute)"
+//        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false);
+
         
         let request = UNNotificationRequest(identifier: identifier, content: content, trigger: trigger)
         
